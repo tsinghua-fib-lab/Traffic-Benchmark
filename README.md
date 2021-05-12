@@ -28,7 +28,7 @@ We classify the related works based on four parts: spatial topology construction
 - pandas == 1.1.1
 - torch >= 1.1
 - mxnet == 1.4.1
-- tensorflow == 2.3.0
+- tensorflow >= 2.4.0
 
 Dependencies can be installed using the following command:
 ```bash
