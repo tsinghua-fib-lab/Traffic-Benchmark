@@ -121,7 +121,6 @@ def get_adjacency_matrix(distance_df_filename, num_of_vertices,
                 i, j, distance = int(row[0]), int(row[1]), float(row[2])
                 A[id_dict[i], id_dict[j]] = 1
                 A[id_dict[j], id_dict[i]] = 1
-        print('lfx103: ', A.shape, type(A))
         return A
 
     
@@ -141,7 +140,6 @@ def get_adjacency_matrix(distance_df_filename, num_of_vertices,
             else:
                 raise ValueError("type_ error, must be "
                                  "connectivity or distance!")
-    print('lfx123: ', A.shape, type(A))
     return A
 
 
