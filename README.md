@@ -87,7 +87,5 @@ If you find this repository useful in your research, please consider citing the 
 }
 ```
 
-This repository will be updated and the code of DGCRN will be available soon.
-
 Moreover, the PyTorch version of baselines like GMAN and STSGCN is on the way~
 

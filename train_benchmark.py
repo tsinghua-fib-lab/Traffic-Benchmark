@@ -16,7 +16,15 @@ data = args.data
 
 def main():
     if model == 'DAGRU':
-        pass
+        if data == 'BJ':
+            run = 'python ./methods/DGCRN_BJ/train.py --adj_data ~/NE-BJ/adj_mat_BJ_new.pkl --data ~/NE-BJ/ --num_nodes 500 --runs 3  --epochs 250 --print_every 10 --batch_size 16 --tolerance 100 --step_size1 2100 --cl_decay_steps 3500 --expid DGCRN_bj --rnn_size 64 --node_dim 100 --device cuda:5'
+            os.system(run)
+        elif data == 'METR-LA':
+            run = 'python ./methods/DGCRN/train.py --adj_data ./data/sensor_graph/adj_mx.pkl --data ./data/METR-LA --num_nodes 207 --runs 3  --epochs 110 --print_every 10 --batch_size 64 --tolerance 100  --cl_decay_steps 4000 --expid DGCRN_metrla --device cuda:2'
+            os.system(run)
+        elif data == 'PEMS-BAY':
+            run = 'python ./methods/DGCRN/train.py --adj_data ./data/sensor_graph/adj_mx_bay.pkl --data ./data/PEMS-BAY --num_nodes 325 --runs 3 --epochs 110 --print_every 10 --batch_size 64 --tolerance 100 --expid DGCRN_pemsbay  --cl_decay_steps 5500 --rnn_size 96 --device cuda:2'
+            os.system(run)
     elif model == 'FNN':
         if data == 'BJ':
             run = 'CUDA_VISIBLE_DEVICES=2 python dcrnn_train_pytorch.py --config_filename=data/model/stmetanet_BJ500.yaml'
