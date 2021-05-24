@@ -9,7 +9,7 @@ import pandas as pd
 import math
 import time
 from layer import *
-
+import sys
 from collections import OrderedDict
 
 
@@ -70,18 +70,17 @@ class DGCRN(nn.Module):
         self.GCN2_tg_de = gcn(dims_hyper, gcn_depth, dropout, *list_weight,
                               'hyper')
 
-
         self.GCN1_tg_1 = gcn(dims_hyper, gcn_depth, dropout, *list_weight,
-                           'hyper')
+                             'hyper')
 
         self.GCN2_tg_1 = gcn(dims_hyper, gcn_depth, dropout, *list_weight,
-                           'hyper')
+                             'hyper')
 
         self.GCN1_tg_de_1 = gcn(dims_hyper, gcn_depth, dropout, *list_weight,
-                              'hyper')
+                                'hyper')
 
         self.GCN2_tg_de_1 = gcn(dims_hyper, gcn_depth, dropout, *list_weight,
-                              'hyper')
+                                'hyper')
 
         self.fc_final = nn.Linear(self.hidden_size, self.output_dim)
 
@@ -134,26 +133,24 @@ class DGCRN(nn.Module):
 
         if type == 'encoder':
 
-            weight_feature1 = self.GCN1_tg(hyper_input,
-                                           predefined_A[0]) + self.GCN1_tg_1(
-                                               hyper_input, predefined_A[1])
-            weight_feature2 = self.GCN2_tg(hyper_input,
-                                           predefined_A[0]) + self.GCN2_tg_1(
-                                               hyper_input, predefined_A[1])
+            filter1 = self.GCN1_tg(hyper_input,
+                                   predefined_A[0]) + self.GCN1_tg_1(
+                                       hyper_input, predefined_A[1])
+            filter2 = self.GCN2_tg(hyper_input,
+                                   predefined_A[0]) + self.GCN2_tg_1(
+                                       hyper_input, predefined_A[1])
 
         if type == 'decoder':
 
-            weight_feature1 = self.GCN1_tg_de(
-                hyper_input, predefined_A[0]) + self.GCN1_tg_de_1(
-                    hyper_input, predefined_A[1])
-            weight_feature2 = self.GCN2_tg_de(
-                hyper_input, predefined_A[0]) + self.GCN2_tg_de_1(
-                    hyper_input, predefined_A[1])
+            filter1 = self.GCN1_tg_de(hyper_input,
+                                      predefined_A[0]) + self.GCN1_tg_de_1(
+                                          hyper_input, predefined_A[1])
+            filter2 = self.GCN2_tg_de(hyper_input,
+                                      predefined_A[0]) + self.GCN2_tg_de_1(
+                                          hyper_input, predefined_A[1])
 
-        nodevec1 = torch.tanh(self.alpha *
-                              torch.mul(nodevec1, weight_feature1))
-        nodevec2 = torch.tanh(self.alpha *
-                              torch.mul(nodevec2, weight_feature2))
+        nodevec1 = torch.tanh(self.alpha * torch.mul(nodevec1, filter1))
+        nodevec2 = torch.tanh(self.alpha * torch.mul(nodevec2, filter2))
 
         a = torch.matmul(nodevec1, nodevec2.transpose(2, 1)) - torch.matmul(
             nodevec2, nodevec1.transpose(2, 1))

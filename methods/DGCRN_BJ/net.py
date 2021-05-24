@@ -10,7 +10,7 @@ import math
 import time
 from layer import *
 import random
-
+import sys
 from collections import OrderedDict
 
 
@@ -123,18 +123,16 @@ class DGCRN(nn.Module):
 
         if type == 'encoder':
 
-            weight_feature1 = self.GCN1_tg(hyper_input, predefined_A)
-            weight_feature2 = self.GCN2_tg(hyper_input, predefined_A)
+            filter1 = self.GCN1_tg(hyper_input, predefined_A)
+            filter2 = self.GCN2_tg(hyper_input, predefined_A)
 
         elif type == 'decoder':
 
-            weight_feature1 = self.GCN1_tg_de(hyper_input, predefined_A)
-            weight_feature2 = self.GCN2_tg_de(hyper_input, predefined_A)
+            filter1 = self.GCN1_tg_de(hyper_input, predefined_A)
+            filter2 = self.GCN2_tg_de(hyper_input, predefined_A)
 
-        nodevec1 = torch.tanh(self.alpha *
-                              torch.mul(nodevec1, weight_feature1))
-        nodevec2 = torch.tanh(self.alpha *
-                              torch.mul(nodevec2, weight_feature2))
+        nodevec1 = torch.tanh(self.alpha * torch.mul(nodevec1, filter1))
+        nodevec2 = torch.tanh(self.alpha * torch.mul(nodevec2, filter2))
 
         a = torch.matmul(nodevec1, nodevec2.transpose(2, 1)) - torch.matmul(
             nodevec2, nodevec1.transpose(2, 1))
