@@ -70,6 +70,19 @@ class DGCRN(nn.Module):
         self.GCN2_tg_de = gcn(dims_hyper, gcn_depth, dropout, *list_weight,
                               'hyper')
 
+
+        self.GCN1_tg_1 = gcn(dims_hyper, gcn_depth, dropout, *list_weight,
+                           'hyper')
+
+        self.GCN2_tg_1 = gcn(dims_hyper, gcn_depth, dropout, *list_weight,
+                           'hyper')
+
+        self.GCN1_tg_de_1 = gcn(dims_hyper, gcn_depth, dropout, *list_weight,
+                              'hyper')
+
+        self.GCN2_tg_de_1 = gcn(dims_hyper, gcn_depth, dropout, *list_weight,
+                              'hyper')
+
         self.fc_final = nn.Linear(self.hidden_size, self.output_dim)
 
         self.alpha = tanhalpha
