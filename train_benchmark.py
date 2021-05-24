@@ -6,7 +6,7 @@ import torch
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model',type=str,default='DAGRU',help='model')
+parser.add_argument('--model',type=str,default='DGCRN',help='model')
 parser.add_argument('--data',type=str,default='METR-LA',help='dataset')
 args = parser.parse_args()
 
@@ -15,7 +15,7 @@ data = args.data
 # setproctitle.setproctitle(model + '_' + data + "@lifuxian")
 
 def main():
-    if model == 'DAGRU':
+    if model == 'DGCRN':
         if data == 'BJ':
             run = 'python ./methods/DGCRN_BJ/train.py --adj_data ~/NE-BJ/adj_mat_BJ_new.pkl --data ~/NE-BJ/ --num_nodes 500 --runs 3  --epochs 250 --print_every 10 --batch_size 16 --tolerance 100 --step_size1 2100 --cl_decay_steps 3500 --expid DGCRN_bj --rnn_size 64 --node_dim 100 --device cuda:5'
             os.system(run)
